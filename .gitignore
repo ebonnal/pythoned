@@ -1,0 +1,5 @@
+.mypy_cache
+pythoned.egg-info
+**/__pycache__
+.venv
+build
