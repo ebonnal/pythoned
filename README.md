@@ -2,7 +2,7 @@
 
 ### *PYTHON EDitor: edit lines via Python expressions*
 
-> For Pythonistas tired of forgetting the syntax of  `sed`/`awk`/`grep`/`tr`.
+> For Pythonistas tired of forgetting the syntax of  `sed`/`awk`/`grep`/`tr`
 
 ### ⬇️ install
 ```bash
@@ -11,7 +11,7 @@ pip install pythoned
 (it sets up `pythoned` in your PATH)
 
 ### ✒️ edit
-The provided Python expression must be an `str`. It manipulates the line available in the `_: str` variable:
+One must simply provide a Python `str` expression that manipulates the line in the `_` variable (an `str`):
 
 ```bash
 # get last char of each line
