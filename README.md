@@ -2,16 +2,16 @@
 
 ### *PYTHON EDitor: cli to edit lines via Python expressions*
 
-> For Pythonistas tired of forgetting the syntax of  `sed`/`awk`/`grep`/`tr`
+> For Pythonistas tired of forgetting the syntax/options of  `sed`/`awk`/`grep`/`tr`
 
-### ⬇️ install
+## install
 ```bash
 pip install pythoned
 ```
 (it sets up `pythoned` in your PATH)
 
-### ✒️ edit
-One must simply provide a Python `str` expression that manipulates the line in the `_` variable (an `str`):
+## edit
+One must simply provide a Python `str` expression, manipulating the line stored in the variable `_: str`:
 
 ```bash
 # get last char of each line
@@ -24,19 +24,19 @@ r
 r
 ```
 
-### 🛑 filter
+## filter
 If the expression is a `bool` instead of an `str`, then the lines will be filtered according to it:
 ```bash
 # keep only lines whose length equals 3
-echo -e 'f00\nbar\nf00bar' | pythoned 'len(_) == 3'
+echo -e 'f00\nbar\nf00bar' | pythoned '"00" in _'
 ```
 output:
 ```
 f00
-bar
+f00bar
 ```
 
-### 📦 modules auto-import
+## modules
 
 Modules are auto-imported, example with `re`:
 ```bash
