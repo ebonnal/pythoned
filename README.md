@@ -2,7 +2,7 @@
 
 ### *PYTHON EDitor: edit lines via Python expressions*
 
-> For Pythonistas tired of forgetting the syntax of  `sed`/`awk`/`grep`/`tr` syntaxes.
+> For Pythonistas tired of forgetting the syntax of  `sed`/`awk`/`grep`/`tr`.
 
 ### ⬇️ install
 ```bash
