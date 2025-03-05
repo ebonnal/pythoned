@@ -1,11 +1,11 @@
-[![Actions Status](https://github.com/ebonnal/pythoned/workflows/unittest/badge.svg)](https://github.com/ebonnal/pythoned/actions)
-[![Actions Status](https://github.com/ebonnal/pythoned/workflows/PyPI/badge.svg)](https://github.com/ebonnal/pythoned/actions)
+[![unittest](https://github.com/ebonnal/pythoned/actions/workflows/unittest.yml/badge.svg?branch=main)](https://github.com/ebonnal/pythoned/actions)
+[![pypi](https://github.com/ebonnal/pythoned/actions/workflows/pypi.yml/badge.svg?branch=main)](https://github.com/ebonnal/pythoned/actions)
 
 # 🐉 `pythoned`
 
-### *PYTHON EDitor: CLI tool to edit lines using Python expressions*
+### *PYTHON EDitor: a command to edit lines using Python expressions*
 
-> For Pythonistas tired of forgetting the syntax/options of  `sed`/`awk`/`grep`/`tr`
+> For Pythonistas always forgetting the syntax of `sed`/`awk`/`grep`/`tr`
 
 ## install
 ```bash
