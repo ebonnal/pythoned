@@ -1,7 +1,7 @@
 from typing import Iterator
 import unittest
 
-from pythoned.edit import edit
+from pythoned import edit
 
 
 def lines() -> Iterator[str]:

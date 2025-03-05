@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from pythoned.edit import edit
+from pythoned import edit
 
 
 def main() -> int:
