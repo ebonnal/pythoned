@@ -1,3 +1,6 @@
+[![Actions Status](https://github.com/ebonnal/pythoned/workflows/unittest/badge.svg)](https://github.com/ebonnal/pythoned/actions)
+[![Actions Status](https://github.com/ebonnal/pythoned/workflows/PyPI/badge.svg)](https://github.com/ebonnal/pythoned/actions)
+
 # 🐉 `pythoned`
 
 ### *PYTHON EDitor: CLI tool to edit lines using Python expressions*
