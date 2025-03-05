@@ -1,6 +1,6 @@
 # 🐉 `pythoned`
 
-### *PYTHON EDitor: A CLI tool to edit lines using Python expressions*
+### *PYTHON EDitor: CLI tool to edit lines using Python expressions*
 
 > For Pythonistas tired of forgetting the syntax/options of  `sed`/`awk`/`grep`/`tr`
 
