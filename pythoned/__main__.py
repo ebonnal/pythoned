@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from pythoned import edit
+from pythoned import LINE_IDENTIFIER, auto_import_eval, edit, iter_identifiers
 
 
 def main() -> int:
@@ -10,8 +10,11 @@ def main() -> int:
 
     args = arg_parser.parse_args()
     expression: str = args.expression
-    for output_line in edit(sys.stdin, expression):
-        print(output_line, end="")
+    if not LINE_IDENTIFIER in iter_identifiers(expression):
+        print(auto_import_eval(expression, {}))
+    else:
+        for output_line in edit(sys.stdin, expression):
+            print(output_line, end="")
     return 0
 
 
