@@ -31,7 +31,7 @@ class TestStream(unittest.TestCase):
             msg="_ must exclude linesep",
         )
         self.assertEqual(
-            list(edit(lines(), "str(int(math.pow(10, len(_))))")),
-            ["1000\n", "1000\n", "1000000"],
+            list(edit(lines(), "re.sub('[0]', 'O', str(int(math.pow(10, len(_)))))")),
+            ["1OOO\n", "1OOO\n", "1OOOOOO"],
             msg="modules should be auto-imported",
         )

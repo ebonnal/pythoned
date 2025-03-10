@@ -39,6 +39,20 @@ f00
 f00bar
 ```
 
+## generate
+If the `_` variable is not used in the expression, its value is outputed:
+```bash
+pythoned '"\n".join(map(str, range(5)))'
+```
+output:
+```
+0
+1
+2
+3
+4
+```
+
 ## modules
 
 Modules are auto-imported, example with `re`:
