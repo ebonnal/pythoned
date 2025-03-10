@@ -1,7 +1,6 @@
 import ast
 import importlib
 import os
-import re
 from types import ModuleType
 from typing import Any, Dict, Iterator, Set
 
@@ -9,8 +8,8 @@ LINE_IDENTIFIER = "_"
 _TYPE_ERROR_MSG = "The provided expression must be an str (editing) or a bool (filtering), but got {}."
 
 
-def iter_identifiers(expr: str) -> Iterator[str]:
-    for node in iter_asts(ast.parse(expr, mode="eval").body):
+def iter_identifiers(expression: str) -> Iterator[str]:
+    for node in iter_asts(ast.parse(expression, mode="eval").body):
         if isinstance(node, ast.Name):
             yield node.id
 
@@ -27,19 +26,13 @@ def iter_asts(node: ast.AST) -> Iterator[ast.AST]:
 
 def auto_import_eval(expression: str, globals: Dict[str, Any]) -> Any:
     globals = globals.copy()
-    encountered_name_errors: Set[str] = set()
-    while True:
-        try:
-            return eval(expression, globals)
-        except NameError as name_error:
-            if str(name_error) in encountered_name_errors:
-                raise
-            encountered_name_errors.add(str(name_error))
-            match = re.match(r"name '([A-Za-z]+)'.*", str(name_error))
-            if match:
-                module = match.group(1)
-                globals[module] = importlib.import_module(module)
+    for identifier in iter_identifiers(expression):
+        if identifier != LINE_IDENTIFIER:
+            try:
+                globals[identifier] = importlib.import_module(identifier)
+            except ModuleNotFoundError:
                 continue
+    return eval(expression, globals=globals)
 
 
 def edit(lines: Iterator[str], expression) -> Iterator[str]:
