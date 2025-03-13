@@ -1,2 +1,2 @@
 # to show the CHANGELOG: git log -- version.py
-__version__ = "0.0.4-rc"
+__version__ = "0.0.4"
