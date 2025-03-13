@@ -4,7 +4,7 @@ from version import __version__
 setup(
     name="pythoned",
     version=__version__,
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests"]),
     url="http://github.com/ebonnal/pythoned",
     license="Apache 2.",
     author="ebonnal",
