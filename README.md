@@ -13,8 +13,8 @@ pip install pythoned
 ```
 (it sets up `pythoned` in your PATH)
 
-## edit
-You provide a Python `str` expression, manipulating the line stored in the `_: str` variable:
+## edit mode
+You provide a Python `str` expression, manipulating the line stored in the `_` variable (an `str`):
 
 ```bash
 # get last char of each line
@@ -27,10 +27,10 @@ r
 r
 ```
 
-## filter
+## filter mode
 If the provided expression is a `bool` instead of an `str`, then the lines will be filtered according to it:
 ```bash
-# keep only lines whose length equals 3
+# keep only lines containing 2 consecutive zeros
 echo -e 'f00\nbar\nf00bar' | pythoned '"00" in _'
 ```
 output:
@@ -39,10 +39,35 @@ f00
 f00bar
 ```
 
-## generate
-If the `_` variable is not used in the expression, its value is outputed:
+## flatten mode
+If the provided expression is an `Iterable`, then its elements will be flattened as separate output lines:
 ```bash
-pythoned '"\n".join(map(str, range(5)))'
+# flatten the chars
+echo -e 'f00\nbar\nf00bar' | pythoned 'list(_)'
+```
+output:
+```
+f
+0
+0
+b
+a
+r
+f
+0
+0
+b
+a
+r
+```
+
+## generator mode
+If the `_` variable is not used and the expression is an `Iterable`, then its elements will be separate output lines:
+
+iterables:
+```bash
+# generate ints
+pythoned 'range(5)'
 ```
 output:
 ```
@@ -55,14 +80,13 @@ output:
 
 ## modules
 
-Modules are auto-imported, example with `re`:
+Modules are auto-imported, example with `re` and `json`:
 ```bash
-# replace digits by Xs
-echo -e 'f00\nbar\nf00bar' | pythoned 're.sub(r"\d", "X", _)'
+# replace digits by Xs in the "bar" field
+echo -e '{"bar": "f00"}\n{"bar": "foo"}' | pythoned 're.sub(r"\d", "X", json.loads(_)["bar"])'
 ```
 output:
 ```
 fXX
-bar
-fXXbar
+foo
 ```

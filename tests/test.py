@@ -1,7 +1,7 @@
 from typing import Iterator
 import unittest
 
-from pythoned import edit
+from pythoned import edit, generate
 
 
 def lines() -> Iterator[str]:
@@ -10,28 +10,53 @@ def lines() -> Iterator[str]:
 
 class TestStream(unittest.TestCase):
     def test_edit(self) -> None:
-        self.assertEqual(
-            list(edit(lines(), "_[-1]")),
+        self.assertListEqual(
+            list(edit("_[-1]", lines())),
             ["0\n", "r\n", "r"],
             msg="str expression must edit the lines",
         )
-        self.assertEqual(
-            list(edit(lines(), 're.sub(r"\d", "X", _)')),
+        self.assertListEqual(
+            list(edit('re.sub(r"\d", "X", _)', lines())),
             ["fXX\n", "bar\n", "fXXbar"],
             msg="re should be supported out-of-the-box",
         )
-        self.assertEqual(
-            list(edit(lines(), '"0" in _')),
+        self.assertListEqual(
+            list(edit('"0" in _', lines())),
             ["f00\n", "f00bar"],
             msg="bool expression must filter the lines",
         )
-        self.assertEqual(
-            list(edit(lines(), "len(_) == 3")),
-            ["f00\n", "bar\n"],
-            msg="_ must exclude linesep",
+        self.assertListEqual(
+            list(edit("list(_)", lines())),
+            ["f\n", "0\n", "0\n", "b\n", "a\n", "r\n", "f\n", "0\n", "0\n", "b\n", "a\n", "r"],
+            msg="list expression should flatten",
         )
-        self.assertEqual(
-            list(edit(lines(), "re.sub('[0]', 'O', str(int(math.pow(10, len(_)))))")),
+        self.assertListEqual(
+            list(edit("len(_) == 3", lines())),
+            ["f00\n", "bar\n"],
+            msg="`_` must not include linesep",
+        )
+        self.assertListEqual(
+            list(edit("re.sub('[0]', 'O', str(int(math.pow(10, len(_)))))", lines())),
             ["1OOO\n", "1OOO\n", "1OOOOOO"],
             msg="modules should be auto-imported",
         )
+        self.assertListEqual(
+            list(generate("['foo', 'bar']")),
+            ["foo\n", "bar\n"],
+            msg="generator when `_` not used",
+        )
+        self.assertListEqual(
+            list(generate("[0, 1]")),
+            ["0\n", "1\n"],
+            msg="generator when `_` not used, ok with non str elements",
+        )
+        with self.assertRaisesRegex(
+            TypeError,
+            "the generating expression must be an iterable but got a <class 'bool'>",
+        ):
+            list(generate("True"))
+        with self.assertRaisesRegex(
+            TypeError,
+            r"the editing expression must be an str \(editing\) or a bool \(filtering\) or a iterable \(flattening\) but got a <class 'int'>",
+        ):
+            list(edit("0 if _ else 1", lines()))

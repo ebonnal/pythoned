@@ -2,11 +2,9 @@ import ast
 import importlib
 import os
 import re
-from types import ModuleType
-from typing import Any, Dict, Iterator, Set
+from typing import Any, Dict, Iterable, Iterator, Optional, Set
 
 LINE_IDENTIFIER = "_"
-_TYPE_ERROR_MSG = "The provided expression must be an str (editing) or a bool (filtering), but got {}."
 
 
 def iter_identifiers(expr: str) -> Iterator[str]:
@@ -25,7 +23,7 @@ def iter_asts(node: ast.AST) -> Iterator[ast.AST]:
     )
 
 
-def auto_import_eval(expression: str, globals: Dict[str, Any]) -> Any:
+def auto_import_eval(expression: str, globals: Dict[str, Any] = {}) -> Any:
     globals = globals.copy()
     encountered_name_errors: Set[str] = set()
     while True:
@@ -42,19 +40,44 @@ def auto_import_eval(expression: str, globals: Dict[str, Any]) -> Any:
                 continue
 
 
-def edit(lines: Iterator[str], expression) -> Iterator[str]:
-    modules: Dict[str, ModuleType] = {}
+def output_list(value: Iterable[str], linesep: str) -> Iterator[str]:
+    value = list(map(str, value))
+    for item in value[:-1]:
+        yield item + os.linesep
+    yield value[-1] + linesep
 
+
+def output(value: Any, line: Optional[str] = None, linesep: str = "") -> Iterator[str]:
+    if isinstance(value, str):
+        yield value + linesep
+    elif line is not None and isinstance(value, bool):
+        if value:
+            yield line + linesep
+    elif isinstance(value, Iterable):
+        yield from output_list(value, linesep)
+    else:
+        raise TypeError(
+            f"the editing expression must be an str (editing) or a bool (filtering) or a iterable (flattening) but got a {type(value)}"
+        )
+
+
+def generate(expression: str) -> Iterator[str]:
+    value = auto_import_eval(expression)
+    if isinstance(value, Iterable):
+        yield from output_list(value, linesep=os.linesep)
+    else:
+        raise TypeError(
+            f"the generating expression must be an iterable but got a {type(value)}"
+        )
+
+
+def edit(expression: str, lines: Iterator[str]) -> Iterator[str]:
     for line in lines:
         linesep = ""
         if line.endswith(os.linesep):
             linesep, line = os.linesep, line[: -len(os.linesep)]
-        globals = {LINE_IDENTIFIER: line, **modules}
-        value = auto_import_eval(expression, globals)
-        if isinstance(value, str):
-            yield value + linesep
-        elif isinstance(value, bool):
-            if value:
-                yield line + linesep
-        else:
-            raise TypeError(_TYPE_ERROR_MSG.format(type(value)))
+        yield from output(
+            auto_import_eval(expression, {LINE_IDENTIFIER: line}),
+            line,
+            linesep,
+        )
