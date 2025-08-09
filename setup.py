@@ -9,7 +9,7 @@ setup(
     license="Apache 2.",
     author="ebonnal",
     author_email="bonnal.enzo.dev@gmail.com",
-    description="PYTHON EDitor: a command to edit lines using Python expressions",
+    description="PYTHON EDitor: a CLI to edit lines via Python expressions",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     entry_points={

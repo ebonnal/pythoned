@@ -3,7 +3,7 @@
 
 # 🐉 `pythoned`
 
-### *PYTHON EDitor: Command to edit lines via Python expressions*
+### *PYTHON EDitor: a CLI to edit lines via Python expressions*
 
 > For Pythonistas always forgetting the syntax of `sed`/`awk`/`grep`/`tr`
 
